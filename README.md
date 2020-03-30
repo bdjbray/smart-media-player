@@ -8,7 +8,7 @@ Basic goal:build a media player support the most common media format, users are 
 Stretch goal:users are able to share the video with their friends.
 
 # User Story
-I am a user, I want to watch the videos that I have downloaded.
+I am a user, I want to watch the videos that I have downloaded.</br>
 I am a user, I want to browse the videos that I have watched recently. 
 
 # Architecture 
