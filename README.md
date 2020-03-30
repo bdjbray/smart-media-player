@@ -4,7 +4,7 @@
 A media player written with python.Users are able to use the player to play local video files.It supports multiple different video format.
 
 # Goals
-Basic goal:build a media player support the most common media format, users are able to check the videos that they watched recently
+Basic goal:build a media player support the most common media format, users are able to check the videos that they watched recently</br>
 Stretch goal:users are able to share the video with their friends.
 
 # User Story
