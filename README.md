@@ -40,7 +40,7 @@ Output: Decoded raw data of audio and video like PCM or YUV.
 Render the audio data and video data.
 
 ## Idea Example
-Infuse Player on IOS
+Infuse Player on IOS</br>
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/552x414bb%20(1).png)
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/552x414bb.png)
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/infuse-5-apple-tv-title-detail-100708786-orig.jpg)
