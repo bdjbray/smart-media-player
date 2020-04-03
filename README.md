@@ -3,7 +3,6 @@
 ## Summary
 A media player written with python.Users are able to use the player to play local video files.It supports multiple different video format.
 
-<<<<<<< HEAD
 ## Goals
 Basic goal:build a media player support the most common media format, users are able to check the videos that they watched recently</br>
 Stretch goal:
@@ -25,6 +24,8 @@ I am a user, I want to check more information about the song and movie like dire
 I am a user, I want to classify the file by genre so I can find the file more efficiently. For music file, it can be classified as pop music, folk music or R&B etc. For video file, it can be classified as drama film, cartoon or documentary etc.</br>
 
 ## Architecture 
+Language:Python GUI tool:PyQt5
+
 **Basic Architecture for player**:</br>
 1. **I/O Module:** </br>
 Input: URL link or local file </br>
@@ -41,16 +42,3 @@ Render the audio data and video data.
 ## Idea Example
 
 
-=======
-# Goals
-Basic goal:build a media player support the most common media format, users can get help about how to use the media player properly, users are able to check the videos that they watched recently</br>
-Stretch goal:users are able to share the video with their friends.
-
-# User Story
-I am a user, I want to watch the videos that I have downloaded.</br>
-I am a user, I want to browse the videos that I have watched recently.</br>
-I am a user, I want to get some help about the features of the media player and how to use it.
-
-# Architecture 
-Language:Python GUI tool:PyQt5
->>>>>>> 25e07066a971a16336c0fe59c8f24caabe2cad32
