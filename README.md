@@ -12,3 +12,4 @@ I am a user, I want to watch the videos that I have downloaded.</br>
 I am a user, I want to browse the videos that I have watched recently. 
 
 # Architecture 
+Language:Python GUI tool:PyQt5
