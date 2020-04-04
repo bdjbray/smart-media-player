@@ -142,7 +142,6 @@ class VideoMain(QMainWindow):
 
         if fileName != '':
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
-            print("the directory:",str(fileName))
             sqlite_test.insert_emp(str(fileName),None,None)
             print(sqlite_test.get_emps_by_directory(fileName))
             self.playButton.setEnabled(True)  #after choosing, enable play button
