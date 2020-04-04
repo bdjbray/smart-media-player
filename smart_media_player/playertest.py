@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow,QMessageBox,
                              QWidget, QFileDialog,QHBoxLayout, QLabel,
                              QPushButton, QSizePolicy,QSlider, QStyle, QAction,
-                             QVBoxLayout, QWidget)
+                             QVBoxLayout, QWidget,QLineEdit,QInputDialog)
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtCore import QDir, Qt, QUrl
@@ -52,12 +52,20 @@ class VideoMain(QMainWindow):
         self.errorLabel = QLabel()
         self.errorLabel.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
 
+        
+
 
         ## open action
         openAction = QAction('&Open', self)
         openAction.setShortcut('Ctrl+A')
         openAction.setStatusTip('Open Video')
         openAction.triggered.connect(self.openFile)
+
+        #search action
+        searchAction = QAction('&Open', self)
+        searchAction.setShortcut('Ctrl+W')
+        searchAction.setStatusTip('search Video')
+        searchAction.triggered.connect(self.gettext)
 
         ## exit action
         exitAction = QAction('&Exit', self)
@@ -76,10 +84,13 @@ class VideoMain(QMainWindow):
         fileMenu = menuBar.addMenu('&File')
         HelpMenu = menuBar.addMenu('&Help')
 
+
         ### add actions in menubar
         fileMenu.addAction(openAction)
+        fileMenu.addAction(searchAction)
         fileMenu.addAction(exitAction)
         HelpMenu.addAction(introAction)
+        
         
 
 
@@ -132,9 +143,9 @@ class VideoMain(QMainWindow):
         if fileName != '':
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
             print("the directory:",str(fileName))
-            sqlite_test.insert_emp(str(fileName),"cat","Dog")
+            sqlite_test.insert_emp(str(fileName),None,None)
             print(sqlite_test.get_emps_by_directory(fileName))
-            self.playButton.setEnabled(True)
+            self.playButton.setEnabled(True)  #after choosing, enable play button
 
     def exitCall(self):
         sys.exit(app.exec_())
@@ -147,13 +158,18 @@ class VideoMain(QMainWindow):
         msg.setStandardButtons(QMessageBox.Cancel)
         msg.setInformativeText("press detail to get introduction on how to use the media player")
 
-        msg.setDetailedText("You can play any local videos you have\nPress File and Open to choose one.(Ctrl+A)")
+        msg.setDetailedText("You can play any local videos you have\nPress File and Open to choose one.(or Ctrl+A)\nPress File and Search to search any content.\n(or Ctrl+W)")
         x=msg.exec_()
 
         msg.buttonClicked.connect(self.popup_button)
 
     def popup_button(self, i):
         print(i.text())
+
+    def gettext(self):
+      text, ok = QInputDialog.getText(self, 'Text Input Dialog', 'Choose the content you want:')
+      if ok:
+         print(str(text))
 
     def mediaStateChanged(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
