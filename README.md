@@ -50,8 +50,8 @@ Infuse Player on IOS</br>
 
 ## Sprint One Demonstration
 Users are able to play any local videos they have.
-![image]()
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.05.53%20PM.png)
 Users can search for videos with a particular content.
-![image]()
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-03%20at%209.05.11%20PM.png)
 Users can get help about how to use the media player.
-![image]()
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-03%20at%209.04.54%20PM.png)
