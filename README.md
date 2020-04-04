@@ -52,6 +52,6 @@ Infuse Player on IOS</br>
 Users are able to play any local videos they have.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.05.53%20PM.png)
 Users can search for videos with a particular content.
-![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-03%20at%209.05.11%20PM.png)
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.47%20PM.png)
 Users can get help about how to use the media player.
-![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-03%20at%209.04.54%20PM.png)
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.33%20PM.png)
