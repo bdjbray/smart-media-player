@@ -53,5 +53,7 @@ Users are able to play any local videos they have.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.05.53%20PM.png)
 Users can search for videos with a particular content.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.47%20PM.png)
+If the contends exists, the play button will be activated, user can play it.Otherwise, the below message box will pop up.
+![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%202.03.33%20PM.png)
 Users can get help about how to use the media player.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.33%20PM.png)
