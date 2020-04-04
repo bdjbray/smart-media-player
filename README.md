@@ -1,7 +1,7 @@
 # smart-media-player
 
 ## Summary
-A media player written with python.Users are able to use the player to play local video files.It is able to tag all the contend automatically using machine learning. Users are able to search for videos with a particular content.
+A media player written with python.Users are able to use the player to play local video files.It is able to tag all the contend automatically using machine learning, and store at database. Users are able to search for videos with a particular content.
 
 ## Goals
 Basic goal:build a media player support most media format, tag the content of the video automatically and store the data in database. Users are able to search for any particular content they want.</br>
