@@ -49,3 +49,9 @@ Infuse Player on IOS</br>
 
 
 ## Sprint One Demonstration
+Users are able to play any local videos they have.
+![image]()
+Users can search for videos with a particular content.
+![image]()
+Users can get help about how to use the media player.
+![image]()
