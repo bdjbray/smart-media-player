@@ -21,13 +21,13 @@ class VideoMain(QMainWindow):
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
         videoWidget = QVideoWidget()
 
-        ## play button
+        # play button
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.playVideo)
 
-        ## skip button
+        # skip button
         self.seekLeft = QPushButton()
         self.seekLeft.setEnabled(False)
         self.seekLeft.setIcon(self.style().standardIcon(QStyle.SP_MediaSeekBackward))
@@ -38,24 +38,24 @@ class VideoMain(QMainWindow):
         self.seekRight.setIcon(self.style().standardIcon(QStyle.SP_MediaSeekForward))
         self.seekRight.clicked.connect(self.seekForward)
 
-        ## volume button
+        # volume button
         self.volumeButton = QPushButton()
         self.volumeButton.setIcon(self.style().standardIcon(QStyle.SP_MediaVolume))
         self.volumeButton.clicked.connect(self.volume)
 
-        ## seek slider
+        # seek slider
         self.positionSlider = QSlider(Qt.Horizontal)
         self.positionSlider.setRange(0, 0)
         self.positionSlider.sliderMoved.connect(self.setPosition)
 
-        ## error label
+        # error label
         self.errorLabel = QLabel()
         self.errorLabel.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
 
         
 
 
-        ## open action
+        # open action
         openAction = QAction('&Open', self)
         openAction.setShortcut('Ctrl+A')
         openAction.setStatusTip('Open Video')
@@ -67,25 +67,25 @@ class VideoMain(QMainWindow):
         searchAction.setStatusTip('search Video')
         searchAction.triggered.connect(self.gettext)
 
-        ## exit action
+        # exit action
         exitAction = QAction('&Exit', self)
         exitAction.setShortcut('Ctrl+S')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(self.exitCall)
 
-        ## Intro action
+        # Intro action
         introAction = QAction('&Intro', self)
         introAction.setShortcut('Ctrl+Q')
         introAction.setStatusTip('Get some info')
         introAction.triggered.connect(self.show_popup)
 
-        ### create menubar
+        # create menubar
         menuBar = self.menuBar()
         fileMenu = menuBar.addMenu('&File')
         HelpMenu = menuBar.addMenu('&Help')
 
 
-        ### add actions in menubar
+        # add actions in menubar
         fileMenu.addAction(openAction)
         fileMenu.addAction(searchAction)
         fileMenu.addAction(exitAction)
@@ -95,11 +95,11 @@ class VideoMain(QMainWindow):
 
 
 
-        ### create a widget for window content
+        # create a widget for window content
         wid = QWidget(self)
         self.setCentralWidget(wid)
 
-        ### create layout
+        # create and control layout
         controlLayout = QHBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
         controlLayout.addWidget(self.seekLeft)
@@ -113,7 +113,7 @@ class VideoMain(QMainWindow):
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
 
-        ## set widget to contain window contents
+        # set widget to contain window contents
         wid.setLayout(layout)
         self.mediaPlayer.setVideoOutput(videoWidget)
         self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
@@ -149,15 +149,16 @@ class VideoMain(QMainWindow):
     def exitCall(self):
         sys.exit(app.exec_())
 
+    # help Qmessage box
     def show_popup(self):
         msg = QMessageBox()
         msg.setWindowTitle("Information")
         msg.setText("Introduction")
         msg.setIcon(QMessageBox.Question)
         msg.setStandardButtons(QMessageBox.Cancel)
-        msg.setInformativeText("press detail to get introduction on how to use the media player")
+        msg.setInformativeText("press show details to get introduction on how to use the media player")
 
-        msg.setDetailedText("You can play any local videos you have\nPress File and Open to choose one.(or Ctrl+A)\nPress File and Search to search any content.\n(or Ctrl+W)")
+        msg.setDetailedText("You can play any local videos you have\nPress File and Open to choose one.(or Ctrl+A)\nPress File and Search to search any contents.\n(or Ctrl+W)")
         x=msg.exec_()
 
         msg.buttonClicked.connect(self.popup_button)
@@ -165,10 +166,43 @@ class VideoMain(QMainWindow):
     def popup_button(self, i):
         print(i.text())
 
-    def gettext(self):
-      text, ok = QInputDialog.getText(self, 'Text Input Dialog', 'Choose the content you want:')
+    #the input dialog box
+    def gettext(self):   
+      text, ok = QInputDialog.getText(self, 'Search contents', 'Choose the contents you want:')
       if ok:
-         print(str(text))
+         self.searchContents(str(text))
+    
+    # search action
+    def searchContents(self,text):  
+        print(text)
+        directory1=sqlite_test.get_emps_by_obj1(text)
+        directory2=sqlite_test.get_emps_by_obj2(text)
+        if directory1!=None:     # contents exist, set the media
+            print(directory1[0])
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(directory1[0])))
+            self.playButton.setEnabled(True)
+        if directory2!=None:    #contents exist, set the media
+            print(directory2[0])
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(directory2[0])))
+            self.playButton.setEnabled(True)
+        if directory1==None and directory2==None:
+            self.didNotFound()
+
+    def didNotFound(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Warning")
+        msg.setText("Warning")
+        msg.setIcon(QMessageBox.Warning)
+        msg.setStandardButtons(QMessageBox.Cancel)
+        msg.setInformativeText("Sorry, the contents you want does not exist!")
+
+        #msg.setDetailedText("You can play any local videos you have\nPress File and Open to choose one.(or Ctrl+A)\nPress File and Search to search any contents.\n(or Ctrl+W)")
+        x=msg.exec_()
+
+        msg.buttonClicked.connect(self.popup_button)
+
+    def popup_button(self, i):
+        print(i.text())
 
     def mediaStateChanged(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:

@@ -22,15 +22,15 @@ def insert_emp(direc,obj1,obj2):
 
 def get_emps_by_directory(thedirectory):
     c.execute("SELECT * FROM videos WHERE directory=:directory", {'directory': thedirectory})
-    return c.fetchall()
+    return c.fetchone()
 
 def get_emps_by_obj1(theobject):
     c.execute("SELECT * FROM videos WHERE object1=:object1", {'object1': theobject})
-    return c.fetchall()
+    return c.fetchone()
 
 def get_emps_by_obj2(theobject):
     c.execute("SELECT * FROM videos WHERE object2=:object2", {'object2': theobject})
-    return c.fetchall()
+    return c.fetchone()
 
 
 
