@@ -8,6 +8,8 @@ from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtCore import QDir, Qt, QUrl
 from PyQt5.QtGui import QIcon
 import sqlite_test
+import loadFrames
+import detect
 
 
 
@@ -142,7 +144,21 @@ class VideoMain(QMainWindow):
 
         if fileName != '':
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
-            sqlite_test.insert_emp(str(fileName),None,None)
+            loadFrames.loadFrame(fileName)  # video to frame
+            labels=detect.detect()   # detect objects
+            item1=None
+            item2=None
+            try:
+                item1=labels[0]
+                print(item1)
+            except Exception as e:
+                pass
+            try:
+                item2=labels[1]
+                print(item2)
+            except Exception as e:
+                pass
+            sqlite_test.insert_emp(str(fileName),item1,item2)   #store the directory and objects to database
             print(sqlite_test.get_emps_by_directory(fileName))
             self.playButton.setEnabled(True)  #after choosing, enable play button
 
