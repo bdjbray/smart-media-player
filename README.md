@@ -60,7 +60,7 @@ Users can get help about how to use the media player.
 
 ## Setup
 1. git clone https://github.com/bdjbray/smart-media-player.git  
-2. cd 'the directory of the repo'  
+2. cd the directory of the repo/smart_media_player  
 3. conda create -n yolo python=3.6  
 4. conda activate yolo  
 5. conda install tensorflow opencv  
