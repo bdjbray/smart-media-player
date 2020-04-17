@@ -46,8 +46,7 @@ Infuse Player on IOS</br>
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/552x414bb%20(1).png)
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/552x414bb.png)
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/infuse-5-apple-tv-title-detail-100708786-orig.jpg)
-A demo video:  
-https://github.com/bdjbray/smart-media-player/blob/master/smart_media_player/demo.mp4
+
 
 
 ## Sprint One Demonstration
@@ -59,6 +58,8 @@ If the contends exists, the play button will be activated, user can play it.Othe
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%202.03.33%20PM.png)
 Users can get help about how to use the media player.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.33%20PM.png)
+A demo:  
+https://github.com/bdjbray/smart-media-player/blob/master/smart_media_player/demo.mp4
 
 ## Setup
 1. git clone https://github.com/bdjbray/smart-media-player.git  
