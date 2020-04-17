@@ -57,3 +57,14 @@ If the contends exists, the play button will be activated, user can play it.Othe
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%202.03.33%20PM.png)
 Users can get help about how to use the media player.
 ![image](https://github.com/bdjbray/smart-media-player/blob/master/Images/Screen%20Shot%202020-04-04%20at%2012.37.33%20PM.png)
+
+## Setup
+1. git clone https://github.com/bdjbray/smart-media-player.git  
+2. cd 'the directory of the repo'  
+3. conda create -n yolo python=3.6  
+4. conda activate yolo  
+5. conda install tensorflow opencv  
+6. pip install cvlib  
+7. pip install pyqt5  
+8. python playertest.py
+
