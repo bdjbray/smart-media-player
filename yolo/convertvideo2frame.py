@@ -1,6 +1,87 @@
 # -*- coding: utf-8 -*-
 import os
 import cv2    
+import numpy as np
+import time
+
+def yolo_detect(pathIn='',
+                pathOut=None,
+                label_path='./cfg/coco.names',
+                config_path='./cfg/yolov3_coco.cfg',
+                weights_path='./cfg/yolov3_coco.weights',
+                confidence_thre=0.5,
+                output_prefix = 'test',
+                nms_thre=0.3,
+                jpg_quality=80):
+
+
+    LABELS = open(label_path).read().strip().split("\n")
+    nclass = len(LABELS)
+    
+    np.random.seed(42)
+    COLORS = np.random.randint(0, 255, size=(nclass, 3), dtype='uint8')
+    
+    base_path = os.path.basename(pathIn)
+    img = cv2.imread(pathIn)
+    (H, W) = img.shape[:2]
+    
+    #print('从硬盘加载YOLO......')
+    net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
+    
+    ln = net.getLayerNames()
+    ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    
+    blob = cv2.dnn.blobFromImage(img, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+    net.setInput(blob)
+    start = time.time()
+    layerOutputs = net.forward(ln)
+    end = time.time()
+    
+    #print('YOLO模型花费 {:.2f} 秒来预测一张图片'.format(end - start))
+    
+    boxes = []
+    confidences = []
+    classIDs = []
+    
+    for output in layerOutputs:
+    	for detection in output:
+    		scores = detection[5:]
+    		classID = np.argmax(scores)
+    		confidence = scores[classID]
+    
+    		if confidence > confidence_thre:
+    			box = detection[0:4] * np.array([W, H, W, H])
+    			(centerX, centerY, width, height) = box.astype("int")
+    
+    			
+    			x = int(centerX - (width / 2))
+    			y = int(centerY - (height / 2))
+    
+    			boxes.append([x, y, int(width), int(height)])
+    			confidences.append(float(confidence))
+    			classIDs.append(classID)
+    
+    idxs = cv2.dnn.NMSBoxes(boxes, confidences, confidence_thre, nms_thre)
+    
+    if len(idxs) > 0:
+    	for i in idxs.flatten():
+            (x, y) = (boxes[i][0], boxes[i][1])
+            (w, h) = (boxes[i][2], boxes[i][3])
+            
+            color = [int(c) for c in COLORS[classIDs[i]]]
+            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+            text = '{}: {:.3f}'.format(LABELS[classIDs[i]], confidences[i])
+            (text_w, text_h), baseline = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
+            cv2.rectangle(img, (x, y-text_h-baseline), (x + text_w, y), color, -1)
+            cv2.putText(img, text, (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+            return(LABELS[classIDs[i]])
+    if pathOut is None:
+        cv2.imwrite('with_box_'+base_path, img, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])
+        #return(text)
+    else:
+        cv2.imwrite(pathOut, img, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])
+        #return(text)
+
 
 def video2frames(pathIn='', 
                  pathOut='', 
@@ -42,7 +123,7 @@ def video2frames(pathIn='',
                 if not isColor:
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  ##convert into black
                 print('Write a new frame: {}, {}th'.format(success, count+1))
-                cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
+                cv2.imwrite(os.path.join(pathOut, "{}{:d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
                 count = count + 1
 
     else:
@@ -74,7 +155,7 @@ def video2frames(pathIn='',
                         if not isColor:
                             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                         print('Write a new frame: {}, {}/{}'.format(success, count+1, n_frames))
-                        cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
+                        cv2.imwrite(os.path.join(pathOut, "{}{:d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
                         count =  count + 1
             else:
                 success = True
@@ -85,7 +166,7 @@ def video2frames(pathIn='',
                         if not isColor:
                             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                         print('Write a new frame: {}, {}/{}'.format(success, count+1, n_frames))
-                        cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
+                        cv2.imwrite(os.path.join(pathOut, "{}{:d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
                         count =  count + 1
 
         ##check wether time interval meet the requirement    
@@ -112,7 +193,7 @@ def video2frames(pathIn='',
                         if not isColor:
                             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                         print('Write a new frame: {}, {}th'.format(success, count+1))
-                        cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
+                        cv2.imwrite(os.path.join(pathOut, "{}{:d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
                         count = count + 1
             else:
                 success = True
@@ -124,15 +205,57 @@ def video2frames(pathIn='',
                         if not isColor:
                             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                         print('Write a new frame: {}, {}th'.format(success, count+1))
-                        cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
+                        cv2.imwrite(os.path.join(pathOut, "{}{:d}.jpg".format(output_prefix, count+1)), image, [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])     # save frame as JPEG file
                         count = count + 1
 
+def get_video_duration(filename):
+  cap = cv2.VideoCapture(filename)
+  if cap.isOpened():
+    rate = cap.get(5)
+    frame_num =cap.get(7)
+    duration = frame_num/rate
+    return (duration)
+  return -1
+
+if __name__ == '__main__':
+    path ='./test_imgs'
+    dirs = os.listdir( path )
+    pathIn = 'test.mp4'
+    pathOut = './test_imgs'
+    result=[]
+    labellist={}
+    frametime = 0
+    if(get_video_duration('test.mp4') > 300):
+        intervaltime = 20
+        video2frames(pathIn, pathOut,
+                    initial_extract_time=1,
+                    end_extract_time=None,
+                    extract_time_interval = intervaltime)
+
+        for file in dirs:
+            frametime= frametime + intervaltime
+            yolopathin='./test_imgs/%s'%file
+            yolopathout = './result_imgs/%s'%file * intervaltime
+            temp = yolo_detect(yolopathin,yolopathout)
+            labellist[frametime]=temp
 
 
+    else:
+        intervaltime = 1
+        video2frames(pathIn, pathOut,
+            initial_extract_time=intervaltime,
+            end_extract_time=None,
+            extract_time_interval = 1)
 
-
-pathOut = './frames3'
-video2frames(pathIn, pathOut,
-             initial_extract_time=1,
-             end_extract_time=None,
-             extract_time_interval = 1)   
+        for file in dirs:
+            frametime = frametime + intervaltime
+            yolopathin='./test_imgs/%s'%file
+            yolopathout = './result_imgs/%s'%file
+            temp = yolo_detect(yolopathin,yolopathout)
+            #print(temp)
+            labellist[frametime] = temp
+            #print(labellist[1])
+    
+        for key ,value in labellist.items():
+            print(key,',', value)    
+            #print(labellist[str(2)])
