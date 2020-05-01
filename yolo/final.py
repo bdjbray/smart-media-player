@@ -235,9 +235,11 @@ def final(pathIn, pathOut):
 
         for file in os.listdir(pathOut):
             frametime= frametime + intervaltime
-            yolopathin='./test_imgs/%s'%file
-            yolopathout = './result_imgs/%s'%file
-            temp = yolo_detect(yolopathin,yolopathout)
+            #yolopathin=pathOut/'%s'%file
+            yolopathin=os.path.join(pathOut, '%s'%file)
+            yolopathin = yolopathin.replace('\\', '/')
+            #yolopathout = './result_imgs/%s'%file
+            temp = yolo_detect(yolopathin)
             labellist[frametime]=temp
     
         return(labellist)
@@ -258,10 +260,12 @@ def final(pathIn, pathOut):
         for file in templist:
         
             frametime = frametime + intervaltime
-            yolopathin='./test_imgs/%s'%file
+            yolopathin=os.path.join(pathOut, '%s'%file)
+            yolopathin = yolopathin.replace('\\', '/')
             #print(yolopathin)
-            yolopathout = './result_imgs/%s'%file
-            temp = yolo_detect(yolopathin,yolopathout)
+            #print(yolopathin)
+            #yolopathout = './result_imgs/%s'%file
+            temp = yolo_detect(yolopathin)
             #print(temp)
             labellist[frametime] = temp
             #print(labellist[1])
