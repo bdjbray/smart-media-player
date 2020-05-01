@@ -26,7 +26,7 @@ I am a user, I want to check more information about the song and movie like dire
 I am a user, I want to classify the file by genre so I can find the file more efficiently. For music file, it can be classified as pop music, folk music or R&B etc. For video file, it can be classified as drama film, cartoon or documentary etc.</br>
 
 ## Architecture 
-Language:Python GUI tool:PyQt5 database:SQLite
+Language:Python  database:SQLite Machine learning Algorithm:yolo
 
 **Basic Architecture for player**:</br>
 1. **I/O Module:** </br>
